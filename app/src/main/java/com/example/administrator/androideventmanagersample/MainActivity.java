@@ -3,12 +3,16 @@ package com.example.administrator.androideventmanagersample;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import gtq.androideventmanager.AndroidEventManager;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //启动同步任务
+        //这里测试完成任务后通知service
+        AndroidEventManager.getInstance().runEvent(SampleEventCode.SYNC,0);
     }
 }

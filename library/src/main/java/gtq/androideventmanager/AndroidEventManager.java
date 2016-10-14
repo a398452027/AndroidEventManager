@@ -8,7 +8,6 @@ import android.util.Log;
 import android.util.SparseArray;
 
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,6 +22,7 @@ import java.util.concurrent.ThreadFactory;
 import gtq.androideventmanager.syncaller.BaseSyncCallerManage;
 import gtq.androideventmanager.syncaller.ICallbackThread;
 import gtq.androideventmanager.syncaller.ICommand;
+
 /**
  * Created by guotengqian on 2016/10/10 16:19.
  * def 事件管理类（单例）
@@ -46,7 +46,7 @@ public class AndroidEventManager extends EventManager implements
     public static final int WHAT_EVENT_SYNC_CALLBACK = 4;
     private BaseSyncCallerManage baseSyncCallerManage;
 
-    private ExecutorService mExecutorService;
+    private ExecutorService mExecutorService; //线程池
 
     private SparseArray<List<OnEventRunner>> mMapCodeToEventRunner = new SparseArray<List<OnEventRunner>>();
 
@@ -216,7 +216,7 @@ public class AndroidEventManager extends EventManager implements
 //                Log.w("AndroidEventManager NotPrintStackException",e);
 //
 //            } else {
-                Log.w("AndroidEventManager",e);
+            Log.w("AndroidEventManager", e);
 //            }
             event.setFailException(e);
         } finally {
@@ -256,18 +256,14 @@ public class AndroidEventManager extends EventManager implements
         return isEventRunning(new Event(eventCode, params));
     }
 
+    public void addEventListener(int eventCode, OnEventListener listener
+    ) {
+        addEventListener(eventCode, listener, false);
+    }
+
     public void addEventListener(int eventCode, OnEventListener listener,
                                  boolean bOnce) {
-        if (mIsMapListenerLock) {
-            addToListenerMap(mMapCodeToEventListenerAddCache, eventCode,
-                    listener);
-        } else {
-            addToListenerMap(mMapCodeToEventListener, eventCode, listener);
-        }
-        if (bOnce) {
-            mMapListenerUseOnce.put(calculateHashCode(eventCode, listener),
-                    listener);
-        }
+        addEventListener(eventCode, listener, bOnce, 0);
     }
 
     public void addEventListener(int eventCode, OnEventListener listener,
@@ -299,15 +295,15 @@ public class AndroidEventManager extends EventManager implements
         }
     }
 
-    public void removeEventListenerEx(Event e, OnEventListener listener) {
-        final List<OnEventListener> listeners = mMapEventToListener.get(e);
-        if (listeners != null) {
-            listeners.remove(listener);
-            if (listeners.size() == 0) {
-                mMapEventToListener.remove(e);
-            }
-        }
-    }
+//    public void removeEventListenerEx(Event e, OnEventListener listener) {
+//        final List<OnEventListener> listeners = mMapEventToListener.get(e);
+//        if (listeners != null) {
+//            listeners.remove(listener);
+//            if (listeners.size() == 0) {
+//                mMapEventToListener.remove(e);
+//            }
+//        }
+//    }
 
     private int calculateHashCode(int nEventCode, OnEventListener listener) {
         if (listener != null) {
@@ -380,7 +376,7 @@ public class AndroidEventManager extends EventManager implements
                 try {
                     listener.onEventRunEnd(event);
                 } catch (Exception e) {
-                    Log.w("AndroidEventManager",e);
+                    Log.w("AndroidEventManager", e);
                 }
             }
         }
@@ -418,7 +414,7 @@ public class AndroidEventManager extends EventManager implements
                 try {
                     listener.onEventRunEnd(event);
                 } catch (Exception e) {
-                    Log.w("AndroidEventManager",e);
+                    Log.w("AndroidEventManager", e);
                 }
                 if (listener != null) {
                     int nHashCode = calculateHashCode(event.getEventCode(),
