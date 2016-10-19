@@ -11,7 +11,9 @@
     tools:context="com.example.administrator.androideventmanagersample.MainActivity">
 
     <TextView
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="12223456"
+        android:textColor="@android:color/holo_blue_dark"/>
 </RelativeLayout>

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.antfortune.freeline'
 android {
     compileSdkVersion 23
     buildToolsVersion "24.0.0"
@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    freeline {
+        hack true
+    }
 }
 
 dependencies {
@@ -27,4 +30,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
     testCompile 'junit:junit:4.12'
     compile project(':library')
+    compile 'com.antfortune.freeline:runtime:0.6.0'
 }

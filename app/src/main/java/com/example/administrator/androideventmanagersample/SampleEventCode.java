@@ -2,9 +2,8 @@ package com.example.administrator.androideventmanagersample;
 
 /**
  * Created by guotengqian on 2016/10/14 17:32.
- * def
+ * def 定义EventCode
  */
-
 public class SampleEventCode {
     protected static int CODE_INC = 0;
 
