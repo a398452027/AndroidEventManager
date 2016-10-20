@@ -32,7 +32,11 @@ public class AndroidEventManager extends EventManager implements
 
     public static AndroidEventManager getInstance() {
         if (sInstance == null) {
-            sInstance = new AndroidEventManager();
+            synchronized (AndroidEventManager.class) {
+                if (sInstance == null) {
+                    sInstance = new AndroidEventManager();
+                }
+            }
         }
         return sInstance;
     }
