@@ -10,6 +10,8 @@
 
 ## AndroidEventManager使用
 
+下面介绍AndroidEventManager三种常用的情况
+
 ### 定义EventCode，事件通过Code作为标识
  demo里定义了三个Code作为演示
 
