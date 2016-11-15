@@ -50,6 +50,8 @@ public class ListenerService extends Service implements EventManager.OnEventList
         //添加监听
         //第四个参数：监听器优先级，优先级大的监听器先收到事件。优先级越大越先收到事件
         //AndroidEventManager.getInstance().addEventListener(SampleEventCode.NOTIFY,this,true,0);
+        //注意如果这里listener是activity或者生命周期不是整个应用程序的实例
+        //，一定要记住在不需要监听的时候取消注册,调用removeEventListener
     }
     ...省略
 }
